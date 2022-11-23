@@ -77,7 +77,7 @@ button {
     font-size: 1.25rem;
     padding: 0.5em 1em;
     margin-bottom: 1em;
-    border: 2px solid black;
+    border: none;
     border-radius: 1em;
     background-color: #eee;
     cursor: pointer;
@@ -90,7 +90,7 @@ button:hover {
 }
 
 button.active {
-    background-color: rgb(36, 36, 36);
+    background-color: rgb(73, 73, 73);
     color: #eee;
 }
 
@@ -103,9 +103,22 @@ body.lose {
 }
 
 .lives {
-    min-height: 32px;
+    display: inline-block;
+    margin-right: 40px;
+    width: 98.86px;
+}
+
+.hints {
+    display: inline-block;
+    cursor: pointer;
+    width: 98.86px;
 }
 
 h2.time {
     margin:10px 0;
+}
+
+.lives-hints {
+    height: 32px;
+    margin-bottom: 30px;
 }

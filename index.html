@@ -13,7 +13,10 @@
 
     <div>
         <h2 class="time">0.000</h2>
-        <h2 class="lives"><span>❤️❤️❤️</span></h2>
+        <div class="lives-hints">
+            <h2 class="lives"><span>❤️❤️❤️</span></h2>
+            <h2 class="hints"><span onclick="onHintClicked()">💡💡💡</span></h2>
+        </div>
         <h2 onclick="onInit()" class="game-status">😊</h2>
         <div class="diff-btns-container">
             <button class="active" onclick="onDiffClicked('easy', this)">Easy</button>

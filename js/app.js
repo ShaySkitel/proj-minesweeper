@@ -14,10 +14,12 @@ var gLevel = {
 var gGame = {
     isOn: false,
     isOver: false,
+    hint: false,
     shownCount: 0,
     markedCount: 0,
     secsPassed: 0,
     lives: 3,
+    hints: 3,
     lifeSavedCount: 0
 }
 
@@ -28,13 +30,16 @@ function onInit() {
     gGame = {
         isOn: false,
         isOver: false,
+        hint: false,
         shownCount: 0,
         markedCount: 0,
         secsPassed: 0,
         lives: 3,
+        hints: 3,
         lifeSavedCount: 0
     }
     updateLivesText()
+    updateHintsText()
     updateStatusEmoji()
     gBoard = buildBoard(gLevel.SIZE)
     renderBoard(gBoard, '.game-container')
@@ -114,6 +119,12 @@ function cellClicked(elCell, i, j) {
 
     if (cell.isShown) return
     if (cell.isMarked) return
+
+    if(gGame.hint){
+        getHint({i, j})
+        return
+    }
+
     if (cell.isMine) {
         if (gGame.lives !== 0) {
             gGame.lives--
@@ -232,10 +243,10 @@ function onDiffClicked(diffStr, elBtn) {
     onInit()
 }
 
-function resetDiffBtnsClasses(){
+function resetDiffBtnsClasses() {
     const elBtns = document.querySelectorAll('button')
 
-    for(var i = 0; i < elBtns.length; i++){
+    for (var i = 0; i < elBtns.length; i++) {
         const elBtn = elBtns[i]
         elBtn.classList = ''
     }
@@ -260,15 +271,55 @@ function showNegs(mat, pos) {
 function updateLivesText() {
     const elH2Span = document.querySelector('.lives span')
     var livesStr = ''
-    for(var i = 0; i < gGame.lives; i++){
+    for (var i = 0; i < gGame.lives; i++) {
         livesStr += '❤️'
     }
     elH2Span.innerText = livesStr
 }
 
-function updateStatusEmoji(emoji = '😊'){
+function updateHintsText() {
+    const elH2Span = document.querySelector('.hints span')
+    var hintsStr = ''
+    for (var i = 0; i < gGame.hints; i++) {
+        hintsStr += '💡'
+    }
+    elH2Span.innerText = hintsStr
+}
+
+function updateStatusEmoji(emoji = '😊') {
     const elH2 = document.querySelector('.game-status')
     elH2.innerText = emoji
+}
+
+function onHintClicked() {
+    if(!gGame.hints || gGame.hint || !gGame.isOn) return
+    gGame.hints--
+    updateHintsText()
+    gGame.hint = true
+}
+
+function getHint(pos){
+    const shownCells = []
+    for (var i = pos.i - 1; i <= pos.i + 1; i++) {
+        if (i < 0 || i > gBoard.length - 1) continue
+        for (var j = pos.j - 1; j <= pos.j + 1; j++) {
+            if (j < 0 || j > gBoard[0].length - 1) continue
+            const cell = gBoard[i][j]
+            if(cell.isMarked || cell.isShown) continue
+            cell.isShown = true
+            shownCells.push(cell)
+        }
+    }
+    renderBoard(gBoard, '.game-container')
+    gGame.hint = false
+
+    setTimeout(() => {
+        for(var i = 0; i < shownCells.length; i++){
+            const cell = shownCells[i]
+            cell.isShown = false
+        }
+        renderBoard(gBoard, '.game-container')
+    }, 1000);
 }
 
 
