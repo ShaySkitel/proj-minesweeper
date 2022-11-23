@@ -28,6 +28,7 @@ function startTimer() {
         gGame.secsPassed = (Date.now() - gStartTime) / 1000
         const elH2 = document.querySelector('.time')
         elH2.innerText = gGame.secsPassed.toFixed(3)
+        if (checkGameWon() && gGame.isOn) gameWon()
     }, 10);
 }
 

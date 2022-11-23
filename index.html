@@ -10,14 +10,24 @@
 </head>
 
 <body onload="onInit()">
-    <h2 class="time">0.000</h2>
-    <div class="diff-btns-container">
-        <button onclick="onDiffClicked('easy')">Easy</button>
-        <button onclick="onDiffClicked('medium')">Medium</button>
-        <button onclick="onDiffClicked('hard')">Hard</button>
+
+    <div>
+        <h2 class="time">0.000</h2>
+        <h2 class="lives">Lives: <span>3</span></h2>
+        <h2 onclick="onInit()" class="game-status">😊</h2>
+        <div class="diff-btns-container">
+            <button class="active" onclick="onDiffClicked('easy', this)">Easy</button>
+            <button onclick="onDiffClicked('medium', this)">Medium</button>
+            <button onclick="onDiffClicked('hard', this)">Hard</button>
+        </div>
+        <main class="game-container">
+        </main>
     </div>
-    <main class="game-container">
-    </main>
+
+
+    <footer>
+        <span>Developed by Shay Skitel</span>
+    </footer>
 
     <script src="js/util.js"></script>
     <script src="js/app.js"></script>

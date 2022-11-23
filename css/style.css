@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -9,24 +13,86 @@ body {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    justify-content: space-between;
+    text-align: center;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgb(69, 67, 112) 35%, rgba(232, 232, 232, 1) 100%);
+    color: #eee;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 table {
     border: 2px solid black;
+    margin: auto;
+    margin-bottom: 20px;
+    background-color: white;
+    color: black;
 }
 
 td {
-    width: 40px;
-    height: 40px;
-    text-align: center;
+    min-width: 50px;
+    min-height: 50px;
+    width: 50px;
+    height: 50px;
     background-color: grey;
     cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+    border: 5px groove rgb(189, 189, 189);
+    font-size: 1.4rem;
 }
 
 td:hover {
     background-color: rgb(100, 100, 100);
+    border: 1px solid black;
+    border: 5px groove gray;
 }
 
 td.shown {
     background-color: rgb(201, 201, 201);
+    border: 5px groove rgb(255, 255, 255);
+    cursor: default;
+    /* border: none; */
+}
+
+footer {
+    align-self: center;
+    padding: 1rem;
+    background-color: gray;
+    width: 100%;
+    box-shadow: 0px -5px 20px 0px rgba(0, 0, 0, 0.5);
+    border-top: 2px solid rgba(0, 0, 0, 0.4);
+    color: black;
+}
+
+.game-status {
+    cursor: pointer;
+    font-size: 2rem;
+}
+
+button {
+    font-size: 1.25rem;
+    padding: 0.5em 1em;
+    margin-bottom: 1em;
+    border: 2px solid black;
+    border-radius: 1em;
+    background-color: #eee;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+button:hover {
+    background-color: rgb(172, 172, 172);
+}
+
+button.active {
+    background-color: rgb(36, 36, 36);
+    color: #eee;
+}
+
+body.win {
+    background: linear-gradient(180deg, rgb(3, 36, 0) 0%, rgb(67, 112, 71) 35%, rgb(232, 232, 232) 100%);
+}
+
+body.lose {
+    background: linear-gradient(180deg, rgb(36, 0, 0) 0%, rgb(112, 67, 67) 35%, rgb(232, 232, 232) 100%);
 }
