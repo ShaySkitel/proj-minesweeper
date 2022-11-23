@@ -259,7 +259,11 @@ function showNegs(mat, pos) {
 
 function updateLivesText() {
     const elH2Span = document.querySelector('.lives span')
-    elH2Span.innerText = gGame.lives
+    var livesStr = ''
+    for(var i = 0; i < gGame.lives; i++){
+        livesStr += '❤️'
+    }
+    elH2Span.innerText = livesStr
 }
 
 function updateStatusEmoji(emoji = '😊'){

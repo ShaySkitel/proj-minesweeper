@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -55,7 +59,6 @@ td.shown {
 }
 
 footer {
-    align-self: center;
     padding: 1rem;
     background-color: gray;
     width: 100%;
@@ -67,6 +70,7 @@ footer {
 .game-status {
     cursor: pointer;
     font-size: 2rem;
+    margin: 10px 0;
 }
 
 button {
@@ -78,6 +82,7 @@ button {
     background-color: #eee;
     cursor: pointer;
     transition: background-color 0.15s ease-in-out;
+    color: black;
 }
 
 button:hover {
@@ -95,4 +100,12 @@ body.win {
 
 body.lose {
     background: linear-gradient(180deg, rgb(36, 0, 0) 0%, rgb(112, 67, 67) 35%, rgb(232, 232, 232) 100%);
+}
+
+.lives {
+    min-height: 32px;
+}
+
+h2.time {
+    margin:10px 0;
 }
