@@ -150,23 +150,31 @@ function cellClicked(elCell, i, j) {
         }
     }
 
-
+    if(gGame.isFirstClick){
+        placeMines()
+        setMinesNegsCount(gBoard)
+    }
+    
     if (cell.minesAroundCount) {
-        cell.isShown = true
-        gGame.shownCount++
         if(gGame.isFirstClick){
-            placeMines()
-            setMinesNegsCount(gBoard)
+            if(cell.isMine){
+                cell.isMine = false
+                placeMines(1)
+            }
             gGame.isFirstClick = false
         }
+        cell.isShown = true
+        gGame.shownCount++
     } else {
-        cell.isShown = true
-        gGame.shownCount++
         if(gGame.isFirstClick){
-            placeMines()
-            setMinesNegsCount(gBoard)
+            if(cell.isMine){
+                cell.isMine = false
+                placeMines(1)
+            }
             gGame.isFirstClick = false
         }
+        cell.isShown = true
+        gGame.shownCount++
         showNegs(gBoard, { i, j })
     }
 
@@ -195,8 +203,8 @@ function cellRightClicked(elCell, i, j) {
     if (checkGameWon()) gameWon()
 }
 
-function placeMines() {
-    for (var i = 0; i < gLevel.MINES; i++) {
+function placeMines(amount = gLevel.MINES) {
+    for (var i = 0; i < amount; i++) {
         const randRowIdx = getRandomInt(0, gBoard.length)
         const randColIdx = getRandomInt(0, gBoard[randRowIdx].length)
         const randCell = gBoard[randRowIdx][randColIdx]
