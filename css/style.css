@@ -161,8 +161,9 @@ h2.time {
     margin-top: 10px;
     font-size: 1rem;
 }
+
 @keyframes highlight {
-    100%{
+    100% {
         background-color: rgb(58, 59, 160);
     }
 }
@@ -183,7 +184,9 @@ h2.time {
     background-color: gray;
 }
 
-.undo, .megahint {
+.undo,
+.megahint,
+.exterminator {
     margin-top: 20px;
     display: inline-block;
     font-size: 1.2rem;
@@ -195,21 +198,29 @@ h2.time {
     transition: background-color 0.05s ease-in-out, color 0.05s ease-in-out;
 }
 
-.undo:hover, .megahint:hover {
+.undo:hover,
+.megahint:hover,
+.exterminator:hover {
     background-color: rgb(172, 172, 172);
 }
 
-.undo:active, .megahint:active {
+.undo:active,
+.megahint:active,
+.exterminator:active {
     background-color: rgb(73, 73, 73);
     color: #eee;
 }
 
-.undo.not-allowed, .megahint.not-allowed {
+.undo.not-allowed,
+.megahint.not-allowed,
+.exterminator.not-allowed {
     cursor: not-allowed;
     background-color: gray;
 }
 
-.undo.not-allowed:active, .megahint.not-allowed:active {
+.undo.not-allowed:active,
+.megahint.not-allowed:active,
+.exterminator.not-allowed:active {
     color: black;
     background-color: gray;
 }

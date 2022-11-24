@@ -7,6 +7,7 @@ var gTimerIntervalId
 var gStartTime
 // var gBoardState
 var gMegaHintPositions
+var gMinesExterminated
 
 var gBoard
 var gLevel = {
@@ -23,6 +24,7 @@ var gGame = {
     isFirstClick: true,
     isMegahint: false,
     megahintUsed: false,
+    usedExterminator: false,
     secsPassed: 0,
     lives: 3,
     hints: 3,
@@ -31,7 +33,7 @@ var gGame = {
 
 function onInit() {
     // gBoardState = []
-
+    gMinesExterminated = 0
     resetElements()
     if (gTimerIntervalId) clearInterval(gTimerIntervalId)
     resetTimerText()
@@ -46,6 +48,7 @@ function onInit() {
         isFirstClick: true,
         isMegahint: false,
         megahintUsed: false,
+        usedExterminator: false,
         secsPassed: 0,
         lives: 3,
         hints: 3,
@@ -70,7 +73,8 @@ function buildBoard(size = 4) {
                 minesAroundCount: 0,
                 isShown: false,
                 isMine: false,
-                isMarked: false
+                isMarked: false,
+                pos: { i, j }
             }
         }
     }
@@ -263,7 +267,7 @@ function revealAllMines(board) {
 }
 
 function checkGameWon() {
-    return gGame.markedCount === gLevel.MINES - gGame.lifeSavedCount && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES
+    return gGame.markedCount === gLevel.MINES - gGame.lifeSavedCount - gMinesExterminated && gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES + gMinesExterminated
 }
 
 function gameWon() {
@@ -493,11 +497,61 @@ function showMegahintArea() {
     }, 2000);
 }
 
-function resetElements(){
+function resetElements() {
     const elSafeClick = document.querySelector('.safe-click')
     elSafeClick.classList.remove('not-allowed')
     document.body.classList = ''
 
     const elMegahint = document.querySelector('.megahint')
     elMegahint.classList.remove('not-allowed')
+
+    const elExterminator = document.querySelector('.exterminator')
+    elExterminator.classList.remove('not-allowed')
+}
+
+function onExterminator(elBtn) {
+    if (gGame.usedExterminator || gGame.isFirstClick || gGame.isOver || !gGame.isOn) return
+    const mines = getThreeRandomMines()
+    for (var i = 0; i < mines.length; i++) {
+        const mineCell = mines[i]
+        mineCell.isShown = true
+        renderBoard(gBoard, '.game-container')
+        gMinesExterminated++
+        setTimeout(() => {
+            mineCell.isMine = false
+            mineCell.isShown = false
+            setMinesNegsCount(gBoard)
+            renderBoard(gBoard, '.game-container')
+        }, 500);
+
+    }
+    gGame.usedExterminator = true
+    elBtn.classList.add('not-allowed')
+}
+
+function getHiddenMines() {
+    const allMines = []
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            const cell = gBoard[i][j]
+            if (cell.isMine && !cell.isShown && !cell.isMarked) {
+                allMines.push(cell)
+            }
+        }
+    }
+    return allMines
+}
+
+function getThreeRandomMines() {
+    const mines = getHiddenMines()
+    const randMines = []
+    while (randMines.length !== 3) {
+        const randIdx = getRandomInt(0, mines.length)
+        const mine = mines[randIdx]
+        console.log(mine)
+        if (randMines.includes(mine)) continue
+        randMines.push(mine)
+        if (randMines.length === gLevel.MINES) return randMines
+    }
+    return randMines
 }
