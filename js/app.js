@@ -551,7 +551,7 @@ function getThreeRandomMines() {
         console.log(mine)
         if (randMines.includes(mine)) continue
         randMines.push(mine)
-        if (randMines.length === gLevel.MINES) return randMines
+        if (randMines.length === gLevel.MINES - gGame.lifeSavedCount) return randMines
     }
     return randMines
 }
