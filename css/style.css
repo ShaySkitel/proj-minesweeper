@@ -81,7 +81,7 @@ button {
     border-radius: 1em;
     background-color: #eee;
     cursor: pointer;
-    transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
     color: black;
 }
 
@@ -115,10 +115,91 @@ body.lose {
 }
 
 h2.time {
-    margin:10px 0;
+    margin: 10px 0;
 }
 
 .lives-hints {
     height: 32px;
     margin-bottom: 30px;
+}
+
+.extra-ui {
+    position: absolute;
+    height: calc(100vh - 50px);
+    left: 0px;
+    top: 0px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+
+}
+
+.safe-click {
+    display: inline-block;
+    font-size: 1.2rem;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    background-color: #eee;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.05s ease-in-out, color 0.05s ease-in-out;
+}
+
+.safe-click:hover {
+    background-color: rgb(172, 172, 172);
+}
+
+.safe-click:active {
+    background-color: rgb(73, 73, 73);
+    color: #eee;
+}
+
+.safe-click span {
+    display: block;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+@keyframes highlight {
+    100%{
+        background-color: rgb(58, 59, 160);
+    }
+}
+
+.safe {
+    /* background-color: rgb(86, 68, 184); */
+    animation: highlight alternate 0.5s;
+    animation-iteration-count: 4;
+}
+
+.safe-click.not-allowed {
+    cursor: not-allowed;
+    background-color: gray;
+}
+
+.safe-click.not-allowed:active {
+    color: black;
+    background-color: gray;
+}
+
+.undo {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 1.2rem;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    background-color: #eee;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.05s ease-in-out, color 0.05s ease-in-out;
+}
+
+.undo:hover {
+    background-color: rgb(172, 172, 172);
+}
+
+.undo:active {
+    background-color: rgb(73, 73, 73);
+    color: #eee;
 }

@@ -10,6 +10,15 @@
 </head>
 
 <body onload="onInit()">
+    <div class="extra-ui">
+        <div onclick="onSafeClick(this)" class="safe-click">
+            Safe Click
+            <span>3 clicks available</span>
+        </div>
+        <!-- <div onclick="onUndo()" class="undo">
+            Undo
+        </div> -->
+    </div>
 
     <div>
         <h2 class="time">0.000</h2>
@@ -26,7 +35,6 @@
         <main class="game-container">
         </main>
     </div>
-
 
     <footer>
         <span>Developed by Shay Skitel</span>
