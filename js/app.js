@@ -28,6 +28,9 @@ var gGame = {
 
 function onInit() {
     // gBoardState = []
+
+    const elSafeClick = document.querySelector('.safe-click')
+    elSafeClick.classList.remove('not-allowed')
     document.body.classList = ''
     if (gTimerIntervalId) clearInterval(gTimerIntervalId)
     resetTimerText()
@@ -44,6 +47,7 @@ function onInit() {
         hints: 3,
         lifeSavedCount: 0
     }
+    elSafeClick.querySelector('span').innerText = `${gGame.safeClicks} clicks available`
     updateLivesText()
     updateHintsText()
     updateStatusEmoji()
