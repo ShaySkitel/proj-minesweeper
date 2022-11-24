@@ -341,6 +341,7 @@ function updateStatusEmoji(emoji = '😊') {
 }
 
 function onHintClicked() {
+    if (gGame.isFirstClick) return
     if (!gGame.hints || gGame.hint || !gGame.isOn || gGame.isOver) return
     gGame.hints--
     updateHintsText()
@@ -388,6 +389,7 @@ function getMinesCount() {
 function onSafeClick(elBtn) {
     if (!gGame.safeClicks) return
     if (!gGame.isOn) return
+    if (gGame.isFirstClick) return
     const safeCellPos = getRandomSafeCellPos()
     if (!safeCellPos) return
     gGame.safeClicks--
@@ -455,6 +457,7 @@ function createBoardCopy(board) {
 }
 
 function onMegaHint(elBtn) {
+    if (!gGame.isOn) return
     if (gGame.isOver || gGame.isFirstClick || gGame.megahintUsed) return
     elBtn.classList.add('not-allowed')
     gGame.isMegahint = true
