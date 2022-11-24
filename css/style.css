@@ -183,7 +183,7 @@ h2.time {
     background-color: gray;
 }
 
-.undo {
+.undo, .megahint {
     margin-top: 20px;
     display: inline-block;
     font-size: 1.2rem;
@@ -195,11 +195,21 @@ h2.time {
     transition: background-color 0.05s ease-in-out, color 0.05s ease-in-out;
 }
 
-.undo:hover {
+.undo:hover, .megahint:hover {
     background-color: rgb(172, 172, 172);
 }
 
-.undo:active {
+.undo:active, .megahint:active {
     background-color: rgb(73, 73, 73);
     color: #eee;
+}
+
+.undo.not-allowed, .megahint.not-allowed {
+    cursor: not-allowed;
+    background-color: gray;
+}
+
+.undo.not-allowed:active, .megahint.not-allowed:active {
+    color: black;
+    background-color: gray;
 }

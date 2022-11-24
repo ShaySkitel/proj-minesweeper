@@ -6,6 +6,7 @@ const FLAG = '🚩'
 var gTimerIntervalId
 var gStartTime
 // var gBoardState
+var gMegaHintPositions
 
 var gBoard
 var gLevel = {
@@ -20,6 +21,8 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     isFirstClick: true,
+    isMegahint: false,
+    megahintUsed: false,
     secsPassed: 0,
     lives: 3,
     hints: 3,
@@ -29,11 +32,10 @@ var gGame = {
 function onInit() {
     // gBoardState = []
 
-    const elSafeClick = document.querySelector('.safe-click')
-    elSafeClick.classList.remove('not-allowed')
-    document.body.classList = ''
+    resetElements()
     if (gTimerIntervalId) clearInterval(gTimerIntervalId)
     resetTimerText()
+    gMegaHintPositions = []
     gGame = {
         isOn: false,
         isOver: false,
@@ -42,12 +44,14 @@ function onInit() {
         shownCount: 0,
         markedCount: 0,
         isFirstClick: true,
+        isMegahint: false,
+        megahintUsed: false,
         secsPassed: 0,
         lives: 3,
         hints: 3,
         lifeSavedCount: 0
     }
-    elSafeClick.querySelector('span').innerText = `${gGame.safeClicks} clicks available`
+    document.querySelector('.safe-click').querySelector('span').innerText = `${gGame.safeClicks} clicks available`
     updateLivesText()
     updateHintsText()
     updateStatusEmoji()
@@ -131,8 +135,20 @@ function cellClicked(elCell, i, j) {
     }
     const cell = gBoard[i][j]
 
+    if (gGame.isMegahint) {
+        if (!(gMegaHintPositions.length >= 2)) {
+            gMegaHintPositions.push({ i, j })
+        }
+        if (gMegaHintPositions.length >= 2) {
+            gGame.isMegahint = false
+            gGame.megahintUsed = true
+            showMegahintArea()
+        }
+        return
+    }
     if (cell.isShown) return
     if (cell.isMarked) return
+
 
     if (gGame.hint) {
         getHint({ i, j })
@@ -146,14 +162,14 @@ function cellClicked(elCell, i, j) {
             gGame.lifeSavedCount++
             updateLivesText()
             if (gGame.lives === 0) {
-                g()
+                gameOver()
                 return
             }
             cell.isShown = true
             renderBoard(gBoard, '.game-container')
             return
         } else {
-            g()
+            gameOver()
             return
         }
     }
@@ -204,6 +220,7 @@ function cellRightClicked(elCell, i, j) {
         placeMines()
         setMinesNegsCount(gBoard)
         gGame.isOn = true
+        gGame.isFirstClick = false
     }
     cell.isMarked = !cell.isMarked
     if (cell.isMarked) gGame.markedCount++
@@ -226,7 +243,7 @@ function placeMines(amount = gLevel.MINES) {
     }
 }
 
-function g() {
+function gameOver() {
     gGame.isOver = true
     if (gTimerIntervalId) clearInterval(gTimerIntervalId)
     revealAllMines(gBoard)
@@ -357,16 +374,16 @@ function getHint(pos) {
 
 // function for testing :)
 
-// function getMinesCount() {
-//     var count = 0
-//     for (var i = 0; i < gBoard.length; i++) {
-//         for (var j = 0; j < gBoard[0].length; j++) {
-//             const cell = gBoard[i][j]
-//             if (cell.isMine) count++
-//         }
-//     }
-//     return count
-// }
+function getMinesCount() {
+    var count = 0
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            const cell = gBoard[i][j]
+            if (cell.isMine) count++
+        }
+    }
+    return count
+}
 
 function onSafeClick(elBtn) {
     if (!gGame.safeClicks) return
@@ -435,4 +452,49 @@ function createBoardCopy(board) {
         }
     }
     return boardCopy
+}
+
+function onMegaHint(elBtn) {
+    if (gGame.isOver || gGame.isFirstClick || gGame.megahintUsed) return
+    elBtn.classList.add('not-allowed')
+    gGame.isMegahint = true
+}
+
+function showMegahintArea() {
+    const shownCells = []
+    const cell1 = gMegaHintPositions[0]
+    const cell2 = gMegaHintPositions[1]
+
+    const rowStartPos = cell1.i > cell2.i ? cell2.i : cell1.i
+    const colStartPos = cell1.j > cell2.j ? cell2.j : cell1.j
+
+    const rowEndPos = cell1.i > cell2.i ? cell1.i : cell2.i
+    const colEndPos = cell1.j > cell2.j ? cell1.j : cell2.j
+    for (var i = rowStartPos; i <= rowEndPos; i++) {
+        for (var j = colStartPos; j <= colEndPos; j++) {
+            const cell = gBoard[i][j]
+            if (cell.isMarked || cell.isShown) continue
+            cell.isShown = true
+            shownCells.push(cell)
+        }
+    }
+    renderBoard(gBoard, '.game-container')
+    gMegaHintPositions = []
+
+    setTimeout(() => {
+        for (var i = 0; i < shownCells.length; i++) {
+            const cell = shownCells[i]
+            cell.isShown = false
+            renderBoard(gBoard, '.game-container')
+        }
+    }, 2000);
+}
+
+function resetElements(){
+    const elSafeClick = document.querySelector('.safe-click')
+    elSafeClick.classList.remove('not-allowed')
+    document.body.classList = ''
+
+    const elMegahint = document.querySelector('.megahint')
+    elMegahint.classList.remove('not-allowed')
 }
