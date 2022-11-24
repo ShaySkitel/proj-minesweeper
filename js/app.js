@@ -142,11 +142,19 @@ function cellClicked(elCell, i, j) {
     if (gGame.isMegahint) {
         if (!(gMegaHintPositions.length >= 2)) {
             gMegaHintPositions.push({ i, j })
+            for(var i = 0; i < gMegaHintPositions.length; i++){
+                const cell = gMegaHintPositions[i]
+                const elCell = document.querySelector(`.cell-${cell.i}-${cell.j}`)
+                elCell.style.backgroundColor = 'blue'
+            }
         }
         if (gMegaHintPositions.length >= 2) {
             gGame.isMegahint = false
             gGame.megahintUsed = true
-            showMegahintArea()
+            setTimeout(() => {
+                showMegahintArea()
+            }, 200);
+
         }
         return
     }
